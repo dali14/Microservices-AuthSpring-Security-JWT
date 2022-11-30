@@ -53,12 +53,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.headers().frameOptions().disable();
-        http.authorizeRequests().antMatchers("/h2-console/**").permitAll();
-        //http.formLogin();
-        http.authorizeRequests().anyRequest().authenticated();
-        http.authorizeRequests().antMatchers(HttpMethod.PUT,"/users/**").hasAuthority("admin"); // only admin can apdate user
-        http.authorizeRequests().antMatchers(HttpMethod.GET,"/users/**").hasAuthority("admin"); // only admin can see user
+        http.authorizeRequests().antMatchers("/h2-console/**","/refreshToken/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.POST,"/users/**").permitAll();
+        //http.formLogin();
+        http.authorizeRequests().antMatchers(HttpMethod.PUT,"/users/**").hasAuthority("Admin"); // only admin can apdate user
+        http.authorizeRequests().antMatchers(HttpMethod.GET,"/users/**").hasAuthority("Admin"); // only admin can see user
+        http.authorizeRequests().anyRequest().authenticated();
+
         http.addFilter(new JwtAuthentificationFilter(authenticationManagerBean()));
         http.addFilterBefore(new JwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
