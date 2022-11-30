@@ -49,7 +49,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         }
     }
     else{
-        filterChain.doFilter(request,response); // no auth for this request 
+        filterChain.doFilter(request,response); // no auth for this request
     }
     }
 }
